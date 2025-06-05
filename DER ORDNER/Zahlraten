@@ -1,0 +1,52 @@
+import tkinter as tk
+import random
+
+class ZahlenratenSpiel:
+    def __init__(self, master):
+        self.master = master
+        master.title("Zahlenraten-Spiel")
+        master.configure(bg="#1A9FFF")
+        master.geometry("400x300")
+
+        self.zahl = random.randint(1, 100)
+        self.versuche = 5
+
+        self.label = tk.Label(master, text="Finde die Zahl zwischen 1 und 100!", bg="#1A9FFF", fg="white", font=("Arial", 12, "bold"))
+        self.label.pack(pady=20)
+
+        self.entry = tk.Entry(master, justify="center", font=("Arial", 14))
+        self.entry.pack(pady=10)
+
+        self.button = tk.Button(master, text="Tipp abgeben", command=self.pruefen, bg="orange", font=("Arial", 12, "bold"))
+        self.button.pack(pady=10)
+
+        self.info = tk.Label(master, text=f"Du hast {self.versuche} Versuche.", bg="#1A9FFF", fg="white", font=("Arial", 10))
+        self.info.pack(pady=10)
+
+    def pruefen(self):
+        try:
+            tipp = int(self.entry.get())
+        except ValueError:
+            self.info.config(text="Bitte gib eine gültige Zahl ein.")
+            return
+
+        self.versuche -= 1
+
+        if tipp == self.zahl:
+            self.info.config(text=f"✅ RICHTIG! Du hast gewonnen mit {5 - self.versuche} Versuch(en).")
+            self.button.config(state="disabled")
+        elif self.versuche == 0:
+            self.info.config(text=f"❌ Verloren! Die Zahl war: {self.zahl}")
+            self.button.config(state="disabled")
+        elif tipp < self.zahl:
+            self.info.config(text=f"Zu niedrig! Noch {self.versuche} Versuche.")
+        else:
+            self.info.config(text=f"Zu hoch! Noch {self.versuche} Versuche.")
+
+        self.entry.delete(0, tk.END)
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ZahlenratenSpiel(root)
+    root.mainloop()
