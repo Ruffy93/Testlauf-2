@@ -14,4 +14,3 @@ if Trommel[Trommel_index]:
     print("💥 Boom! Du bist gestorben.")
 else:
     print("💨 Klick... Du hast Schwein gehabt.")
-
